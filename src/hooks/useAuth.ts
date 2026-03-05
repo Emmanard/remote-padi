@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as Linking from 'expo-linking';
 import { useRouter } from 'expo-router';
@@ -39,19 +39,7 @@ export function useAuth(): {
   completeOAuthSignIn: (params: Record<string, unknown>) => Promise<boolean>;
 } {
   const router = useRouter();
-  const { setSession, refreshSession, clearSession } = useAuthStore();
-
-  useEffect(() => {
-    refreshSession();
-    const {
-      data: { subscription }
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [setSession, refreshSession]);
+  const { setSession, clearSession } = useAuthStore();
 
   const signInWithGoogle = useCallback(() => {
     void openOAuth('google');

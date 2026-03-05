@@ -1,4 +1,3 @@
-import { Link } from 'expo-router';
 import type { ReactElement } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Button } from '@/components/ui/Button';
@@ -13,7 +12,6 @@ export function LoginScreen(): ReactElement {
       <Button label="Continue with Google" onPress={signInWithGoogle} />
       <Button label="Continue with Apple" onPress={signInWithApple} />
       <Button label="Continue with GitHub" onPress={signInWithGithub} />
-      <Link href="/(tabs)/dashboard">Skip authentication</Link>
     </View>
   );
 }

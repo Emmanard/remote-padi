@@ -1,6 +1,6 @@
 # Remote Padi
 
-AI-powered freelance toolkit mobile app: generate professional invoices, CVs, and cover letters with AI, then export as PDFs.
+Freelance toolkit mobile app: generate professional invoices, CVs, and cover letters with AI Assitance, then export as PDFs.
 
 ## Stack
 
