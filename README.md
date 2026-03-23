@@ -149,4 +149,4 @@ These endpoints are:
 
 ## License
 
-Private.
+MIT. See `LICENSE`.

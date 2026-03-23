@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Detect available scripts
+        id: scripts
+        run: |
+          node -e "const s=require('./package.json').scripts||{}; const fs=require('fs'); fs.appendFileSync(process.env.GITHUB_OUTPUT, `has_lint=${Boolean(s.lint)}\nhas_typecheck=${Boolean(s.typecheck)}\nhas_build=${Boolean(s.build)}\n`)"
+
+      - name: Run lint
+        if: steps.scripts.outputs.has_lint == 'true'
+        run: npm run lint
+
+      - name: Skip lint (script missing)
+        if: steps.scripts.outputs.has_lint != 'true'
+        run: echo "No lint script found, skipping."
+
+      - name: Run typecheck
+        if: steps.scripts.outputs.has_typecheck == 'true'
+        run: npm run typecheck
+
+      - name: Skip typecheck (script missing)
+        if: steps.scripts.outputs.has_typecheck != 'true'
+        run: echo "No typecheck script found, skipping."
+
+      - name: Run build
+        if: steps.scripts.outputs.has_build == 'true'
+        run: npm run build
+
+      - name: Skip build (script missing)
+        if: steps.scripts.outputs.has_build != 'true'
+        run: echo "No build script found, skipping."
